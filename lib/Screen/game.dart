@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class GameView extends StatefulWidget {
   String player1;
   String player2;
-  GameView({required this.player1, required this.player2});
+  GameView({super.key, required this.player1, required this.player2});
   @override
   State<GameView> createState() => _GameViewState();
 }
@@ -72,15 +72,15 @@ class _GameViewState extends State<GameView> {
           animType: AnimType.rightSlide,
           btnOkText: "Play Again",
           title: _winner == "X"
-              ? widget.player1 + "Won!"
+              ? "${widget.player1}Won!"
               : _winner == "O"
-                  ? widget.player2 + "Won!"
+                  ? "${widget.player2}Won!"
                   : "It's a Tie",
           btnOkOnPress: (){
             _resetGame();
           },
         )
-            ..show();
+            .show();
       }
     });
   }
@@ -88,39 +88,78 @@ class _GameViewState extends State<GameView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(27, 51, 118, 80),
+      backgroundColor: const Color.fromRGBO(27, 51, 118, 80),
       body: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(height: 70),
-          SizedBox(
-            height: 120,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Turn: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: Colors.white,
+        child: Center(
+          child: Column(children: [
+            const SizedBox(height: 70),
+            SizedBox(
+              height: 200,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Turn: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
                       ),
+                      Text(
+                        _currentPlayer == "X" ? "${widget.player1}($_currentPlayer)": "${widget.player2}($_currentPlayer)",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: _currentPlayer == "X"? const Color.fromRGBO(248, 72, 28, 90): const Color.fromRGBO(127,255,0, 90),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(182, 182, 180, 80),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Text(
-                      _currentPlayer == "X" ? widget.player1 + "($_currentPlayer)": widget.player2 + "($_currentPlayer)",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: _currentPlayer == "X"? Color.fromRGBO(248, 72, 28, 90): Color.fromRGBO(127,255,0, 90),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-          )
-        ],),
+                    margin: const EdgeInsets.all(5),
+                    child: GridView.builder(
+                      itemCount: 9,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ), itemBuilder: (context, index){
+                        int row = index ~/ 3;
+                        int col = index % 3;
+                        return GestureDetector(
+                          onTap: ()=> _makeMove(row, col),
+                          child: Container(
+                            margin: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(26, 17, 16, 80),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(_board[row][col],
+                                style: TextStyle(
+                                  fontSize: 120,
+                                  fontWeight: FontWeight.bold,
+                                  color: _board[row][col] == "X"? Colors.redAccent : Colors.green,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                    }),
+                  )
+                ],
+              ),
+            )
+          ],),
+        ),
       ),
     );
   }
