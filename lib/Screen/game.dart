@@ -106,6 +106,14 @@ class _GameViewState extends State<GameView> {
                         fontSize: 24,
                         color: Colors.white,
                       ),
+                    ),
+                    Text(
+                      _currentPlayer == "X" ? widget.player1 + "($_currentPlayer)": widget.player2 + "($_currentPlayer)",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: _currentPlayer == "X"? Color.fromRGBO(248, 72, 28, 90): Color.fromRGBO(127,255,0, 90),
+                      ),
                     )
                   ],
                 )
