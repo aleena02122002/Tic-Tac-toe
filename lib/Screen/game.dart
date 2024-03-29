@@ -88,14 +88,13 @@ class _GameViewState extends State<GameView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: const Color.fromRGBO(27, 51, 118, 80),
       body: SingleChildScrollView(
-        child: Center(
           child: Column(children: [
             const SizedBox(height: 70),
-            SizedBox(
-              height: 200,
-              child: Column(
+
+               Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -125,41 +124,43 @@ class _GameViewState extends State<GameView> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     margin: const EdgeInsets.all(5),
-                    child: GridView.builder(
-                      itemCount: 9,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ), itemBuilder: (context, index){
-                        int row = index ~/ 3;
-                        int col = index % 3;
-                        return GestureDetector(
-                          onTap: ()=> _makeMove(row, col),
-                          child: Container(
-                            margin: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(26, 17, 16, 80),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text(_board[row][col],
-                                style: TextStyle(
-                                  fontSize: 120,
-                                  fontWeight: FontWeight.bold,
-                                  color: _board[row][col] == "X"? Colors.redAccent : Colors.green,
+                    child: Expanded(
+                      child: GridView.builder(
+                        itemCount: 9,
+                          shrinkWrap: true,
+                           physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ), itemBuilder: (context, index){
+                          int row = index ~/ 3;
+                          int col = index % 3;
+                          return GestureDetector(
+                            onTap: ()=> _makeMove(row, col),
+                            child: Container(
+                              margin: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(26, 17, 16, 80),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(_board[row][col],
+                                  style: TextStyle(
+                                    fontSize: 100,
+                                    fontWeight: FontWeight.bold,
+                                    color: _board[row][col] == "X"? Colors.redAccent : Colors.green,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                    }),
+                          );
+                      }),
+                    ),
                   )
                 ],
               ),
-            )
+
           ],),
-        ),
+
       ),
     );
   }
