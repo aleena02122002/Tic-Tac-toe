@@ -145,7 +145,7 @@ class _GameViewState extends State<GameView> {
                               child: Center(
                                 child: Text(_board[row][col],
                                   style: TextStyle(
-                                    fontSize: 100,
+                                    fontSize: 90,
                                     fontWeight: FontWeight.bold,
                                     color: _board[row][col] == "X"? Colors.redAccent : Colors.green,
                                   ),
